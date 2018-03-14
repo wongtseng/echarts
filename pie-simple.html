@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<!-- Created by wongtseng.com  on March 14,2018 -->
+<html style="height: 100%">
+
+<head>
+    <meta charset="utf-8">
+</head>
+<style>
+    #container2 {
+        background-color: antiquewhite;
+    }
+
+    #btn {
+        width: 200px;
+        height: 50px;
+    }
+</style>
+
+<body style="height: 100%; margin: 0">
+
+    <!-- 图标样式设置界面 -->
+    <div id="container2" style="height:100%;float:right;width:30%">
+        <label>是否显示标题：</label>
+        <input type="radio" id="radio_show_subtitle" onchange="show()" checked="true" name="identity">是</input>
+        <input type="radio" name="identity" onchange="show()">否</input>
+        <br/>
+        <label>标题：</label>
+        <input id="title_value" type="text" value="默认标题">可随意修改</input>
+        <br/>
+        <label>副标题：</label>
+        <input type="text" id="subtext" value="默认副标题">可随意修改</input>
+        <br/>
+        <label>标题水平位置：</label>
+        <input type="radio" id="radio_align_left" name="align" onchange="show()">左</input>
+        <input type="radio" name="align" checked="true" id="radio_align_center" onchange="show()">中</input>
+        <input type="radio" name="align" id="radio_align_right" onchange="show()">右</input>
+        <br/>
+        <label>图例水平位置：</label>
+        <input type="radio" id="radio_legend_align_left" checked="true" name="legend_align" onchange="show()">左</input>
+        <input type="radio" name="legend_align" id="radio_legend_align_center" onchange="show()">中</input>
+        <input type="radio" name="legend_align" id="radio_legend_align_right" onchange="show()">右</input>
+        <br/>
+        <input type="button" id="btn" value="确定" width="100px" onclick="show()"></input>
+    </div>
+    <div id="container" style="height:100%; width:70%;float:right"></div>
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
+    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script>
+    <script type="text/javascript">
+        function show() {
+            var dom = document.getElementById("container");
+            var myChart = echarts.init(dom);
+            var app = {};
+            // 图表样式设置
+            //动态指定标题文本
+            var titlevalue = document.getElementById("title_value").value;
+            //动态指定副标题文本
+            var subtext = document.getElementById("subtext").value;
+            //是否显示标题
+            var boolshowsubtitle = document.getElementById("radio_show_subtitle").checked ? true : false;
+            //标题水平对齐
+            var title_align = "center";
+            if (document.getElementById("radio_align_left").checked)
+                title_align = "left";
+            if (document.getElementById("radio_align_center").checked)
+                title_align = "center";
+            if (document.getElementById("radio_align_right").checked)
+                title_align = "right";
+            //图例水平对齐
+            var legend_align = "left";
+            if (document.getElementById("radio_legend_align_left").checked)
+                legend_align = "left";
+            if (document.getElementById("radio_legend_align_center").checked)
+                legend_align = "center";
+            if (document.getElementById("radio_legend_align_right").checked)
+                legend_align = "right";
+            option = null;
+            option = {
+                title: {
+                    show: boolshowsubtitle,
+                    text: titlevalue,
+                    subtext: subtext,
+                    x: title_align
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                legend: {
+                    orient: 'vertical',
+                    left: legend_align,
+                    data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎']
+                },
+                series: [
+                    {
+                        name: '访问来源',
+                        type: 'pie',
+                        radius: '55%',
+                        center: ['50%', '60%'],
+                        data: [
+                            { value: 335, name: '直接访问' },
+                            { value: 310, name: '邮件营销' },
+                            { value: 234, name: '联盟广告' },
+                            { value: 135, name: '视频广告' },
+                            { value: 1548, name: '搜索引擎' }
+                        ],
+                        itemStyle: {
+                            emphasis: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ]
+            };
+            ;
+            if (option && typeof option === "object") {
+                myChart.setOption(option, true);
+            }
+        }
+        show();
+    </script>
+</body>
+
+</html>
